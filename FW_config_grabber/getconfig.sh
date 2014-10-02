@@ -20,6 +20,9 @@
 # - Michael Myburgh 
 # - Added the awk script subdirs.awk to find the continous sub directories
 ###############################################################################################
+# set -o xtrace # uncomment for debugging
+
+
 
 HOST=`hostname`
 
@@ -106,9 +109,38 @@ then
         echo "config_${HOST} Folder now created"
 	mv configuration config_${HOST}
 else
-        echo "not here"
+        echo "configuration folder is missing"
 fi
 
+
+######### Rename any files with spaces
+
+declare weirdchars=" &\'"
+
+function normalise_and_rename() {
+  declare -a list=("${!1}")
+      for fileordir in "${list[@]}";
+      do
+          newname="${fileordir//[${weirdchars}]/_}"
+          [[ ! -a "$newname" ]] && \
+            mv "$fileordir" "$newname" || \
+                echo "Skipping existing file, $newname."
+      done
+}
+
+declare -a dirs files
+
+while IFS= read -r -d '' dir; do
+    dirs+=("$dir")
+done < <(find -type d -print0 | sort -z)
+
+normalise_and_rename dirs[@]
+
+while IFS= read -r -d '' file; do
+    files+=("$file")
+done < <(find -type f -print0 | sort -z)
+
+normalise_and_rename files[@]
 
 
 exit 0
