@@ -1,0 +1,51 @@
+
+###### Fusionworks Config Grabber ########
+
+These scripts will be used to grab the current configuration
+set in the Openet Ocli interface.
+
+The commands will run a "show" on each directory and it preceding
+subdirectories. It will then send the output to a "configuration"
+directory within this folder
+
+
+
+File Structure:
+
+- getconfig.sh : This is the file used to grab the configuration
+- subdirs.awk  : Used in conjuntion with getconfig.sh to find the subdirectories
+- compare.sh   : Use this to compare configuration directories. 
+- .profile     : profile of the fusionworks user to be able to connect to ocli 
+
+
+
+
+::Running the getconfig.sh::
+
+1. Update or change the ".profile" file with the current settings. 
+
+2. Edit the getconfig.sh on line 40 and change/update the ocli username/password. 
+   for example "Administator/Openet10"
+
+3. Run ./getconfig.sh 
+   NOTE: this can take anywhwere from 20min plus, to run through the whole configuration. 
+
+4. A new folder called "config_{hostname}" should now appear in the current directory. 
+   This contains a listing of all current configuration of Fusionworks.
+
+
+
+::Running compare.sh::
+1. run ./compare.sh and you will be asked 2 questions
+   Point to the first configuration directory "config_{hostname}"
+   point to the second configuration directory "config_{hostname}"
+
+2. If there are differences found a folder called "dd_mm_yyyy.hh.mm" will be created 
+
+3. In this folder will be a file called "List_of_Diffs" which will have a list of all delta's found. 
+
+4. There will also be folders with a coupy of the files and the differences made. 
+   These folder(s) will contain 3 seperate files
+   file.first
+   file.second
+   file.diff
