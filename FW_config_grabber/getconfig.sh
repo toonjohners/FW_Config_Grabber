@@ -19,6 +19,10 @@
 # Version 1.1
 # - Michael Myburgh 
 # - Added the awk script subdirs.awk to find the continous sub directories
+#
+## Version 1.2
+# - John McCormack
+# - Added script to rename any files with blank spaces in name
 ###############################################################################################
 # set -o xtrace # uncomment for debugging
 
