@@ -54,7 +54,7 @@ IFS=$'\n'
 
 if [ -d $NOW ]
     then
-                for i in `diff -r $FIRST $SECOND | grep diff | awk '{print $3,$4}'`; do
+                for i in `diff -r $FIRST $SECOND | grep '^diff' | awk '{print $3,$4}'`; do
                         echo "sdiff $i" >> .diff
                 done
 
